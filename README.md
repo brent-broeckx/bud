@@ -1,8 +1,12 @@
+<img src="assets/bud-icon.png" alt="Bud's sprout-topped robot icon" width="96" height="96">
+
 # Bud
 
 A private, playful **GitHub Copilot canvas** companion. Learn one useful thing a day, collect good-habit milestones, and customize a small bot as it grows.
 
 This version targets the GitHub Copilot app only. There is no standalone product, other-provider integration, leaderboard, or cloud backend.
+
+The repository icon is available as an editable [SVG](assets/bud-icon.svg) and a [1024px PNG](assets/bud-icon.png).
 
 ## Install in this repository
 
