@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <title>Bud</title>
+  <desc>A friendly mint-green robot with a two-leaf sprout on a deep forest-green background.</desc>
+  <rect width="1024" height="1024" rx="224" fill="#203D34"/>
+  <path d="M512 372V287" stroke="#A4D5AE" stroke-width="28" stroke-linecap="round"/>
+  <path d="M510 294C438 305 378 264 372 196C444 185 504 226 510 294Z" fill="#71A894"/>
+  <path d="M514 266C515 196 568 147 640 152C639 222 586 271 514 266Z" fill="#C5DC98"/>
+  <rect x="176" y="472" width="96" height="168" rx="44" fill="#71A894"/>
+  <rect x="752" y="472" width="96" height="168" rx="44" fill="#71A894"/>
+  <rect x="236" y="352" width="552" height="420" rx="140" fill="#A4D5AE"/>
+  <path d="M236 612V632C236 709 299 772 376 772H648C725 772 788 709 788 632V612C788 689 725 752 648 752H376C299 752 236 689 236 612Z" fill="#71A894"/>
+  <rect x="298" y="432" width="428" height="248" rx="88" fill="#203D34"/>
+  <rect x="386" y="496" width="36" height="60" rx="18" fill="#E3EEE4"/>
+  <rect x="602" y="496" width="36" height="60" rx="18" fill="#E3EEE4"/>
+  <path d="M475 594C493 613 531 613 549 594" stroke="#E3EEE4" stroke-width="20" stroke-linecap="round"/>
+</svg>
