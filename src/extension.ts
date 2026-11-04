@@ -5,12 +5,13 @@ import assets from "bud:assets";
 import questions from "../content/questions.json" with { type: "json" };
 import { BudService } from "./service.js";
 import { createBudCanvas } from "./canvas.js";
+import { resolveDataDirectory } from "./data-directory.js";
 
 const sessionId = process.env.SESSION_ID;
 if (!sessionId) throw new Error("Bud must be started by the GitHub Copilot canvas extension host (SESSION_ID is missing).");
 const home = resolve(process.env.COPILOT_HOME ?? join(homedir(), ".copilot"));
 const service = new BudService({
-  directory: resolve(process.env.BUD_DATA_DIR ?? join(home, "extensions", "bud", "artifacts")),
+  directory: resolveDataDirectory(home, process.env.BUD_DATA_DIR),
   copilotHome: home, sessionId, questions
 });
 const bud = createBudCanvas(service, assets);

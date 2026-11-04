@@ -48,10 +48,14 @@ The user and agent share the same service and persistent profile. Canvas actions
 Personal progress is stored outside the repository in:
 
 ```text
-<COPILOT_HOME>\extensions\bud\artifacts\profile.sqlite
+<COPILOT_HOME>\bud-data\profile.sqlite
 ```
 
 `COPILOT_HOME` defaults to `~\.copilot`. `BUD_DATA_DIR` can override Bud's data directory. SQLite transactions protect simultaneous windows/processes; no Copilot database is modified.
+
+The `bud-data` directory is separate from `<COPILOT_HOME>\extensions\bud`, which Copilot can use to install or replace the extension. Keep extension code in `extensions\bud`, not in the data directory.
+
+**Existing installations:** Bud previously stored profiles in `<COPILOT_HOME>\extensions\bud\artifacts`. Before installing or replacing the extension, close all Bud canvases and stop Bud processes, then move the entire `artifacts` directory to `<COPILOT_HOME>\bud-data` (including `profile.sqlite` and any `profile.sqlite-wal` / `profile.sqlite-shm` files). Do not merge or overwrite an existing destination; back up both directories first if both exist. On startup, Bud reports a migration error rather than creating a fresh profile if only the old profile exists. It does not automatically move a potentially active database. An existing profile in `bud-data` takes precedence over leftover legacy data. Explicit `BUD_DATA_DIR` overrides remain unchanged.
 
 Usage import reads `<COPILOT_HOME>\session-state\<SESSION_ID>\events.jsonl`. **Read local usage** imports the current session; **Read local history** starts a fresh import of local session directories, newest first. **Read older sessions** extends it with further batches, so history older than the first 100 directories remains accessible. Each explicitly requested batch contains up to 100 directories with a 128 MB read budget; each log is limited to 64 MB. History is an imported snapshot, not a promise of complete lifetime coverage. Changing directories can shift batch boundaries; failed or skipped imports are explained. Re-imports replace session snapshots rather than adding duplicate totals. **Forget imported counters** clears Bud's imported counters, not Copilot's source logs.
 
