@@ -1,6 +1,6 @@
-import { open, stat } from "node:fs/promises";
+import { open, stat, realpath } from "node:fs/promises";
 import { createInterface } from "node:readline";
-import { join } from "node:path";
+import { join, relative, isAbsolute, sep } from "node:path";
 import { BudError, type ContextSample, type UsageCall, type UsageState } from "../core/types.js";
 
 type Bag = Record<string, unknown>;
@@ -47,9 +47,15 @@ export function normalizeEvent(raw: unknown, sessionId: string): { call?: UsageC
 
 export async function readCopilotUsage(home: string, sessionId: string, now: Date): Promise<UsageState> {
   if (!/^[a-zA-Z0-9_-]{1,128}$/.test(sessionId)) throw new BudError("session_id", "The host did not provide a valid session ID.");
-  const path = join(home, "session-state", sessionId, "events.jsonl");
+  let path = join(home, "session-state", sessionId, "events.jsonl");
   let file;
-  try { file = await open(path, "r"); }
+  try {
+    const root = await realpath(join(home, "session-state"));
+    path = await realpath(path);
+    const local = relative(root, path);
+    if (isAbsolute(local) || local === ".." || local.startsWith(`..${sep}`)) throw new BudError("usage_path", "The usage log is outside local session storage.");
+    file = await open(path, "r");
+  }
   catch (error) {
     if (error instanceof Error && "code" in error && error.code === "ENOENT") {
       throw new BudError("usage_unavailable", "This Copilot session has no local event log yet. Try again after a model turn.");

@@ -36,11 +36,15 @@ export async function serveCanvas(service: Dispatcher, assets: Assets): Promise<
       send(403, '{"message":"Only the Bud canvas can call this endpoint."}'); return;
     }
     try {
-      let body = "";
+      const chunks: Buffer[] = [];
+      let bytes = 0;
       for await (const chunk of req) {
-        body += String(chunk);
-        if (Buffer.byteLength(body) > 8192) throw new BudError("request_size", "This request is too large.");
+        const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+        bytes += buffer.length;
+        if (bytes > 48 * 1024) throw new BudError("request_size", "This request is too large.");
+        chunks.push(buffer);
       }
+      const body = Buffer.concat(chunks).toString("utf8");
       let request: unknown;
       try { request = JSON.parse(body); } catch { throw new BudError("request_json", "The action body is not valid JSON."); }
       if (!request || typeof request !== "object" || !("action" in request) || typeof request.action !== "string") {

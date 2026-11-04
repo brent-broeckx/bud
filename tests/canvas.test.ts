@@ -14,7 +14,7 @@ test("the pinned SDK accepts Bud's real declaration, actions and open/focus/clos
   try {
     assert.equal(bud.canvas.declaration.id, "bud");
     const names = bud.canvas.declaration.actions?.map(a => a.name);
-    for (const name of ["get_profile", "get_daily_question", "submit_answer", "list_achievements", "equip_item", "record_reflection", "sync_usage"]) assert.ok(names?.includes(name));
+    for (const name of ["get_profile", "get_daily_question", "submit_answer", "list_achievements", "equip_item", "record_reflection", "sync_usage", "sync_history", "clear_history", "review_prompt", "review_session", "clear_review", "get_learning", "set_experience", "start_lesson", "submit_lesson", "start_challenge", "submit_challenge", "send_challenge"]) assert.ok(names?.includes(name));
     const context = { sessionId: "s", extensionId: "bud", canvasId: "bud", instanceId: "one" };
     const [opened, focused] = await Promise.all([bud.canvas.open(context), bud.canvas.open(context)]);
     assert.equal(opened.url, focused.url);

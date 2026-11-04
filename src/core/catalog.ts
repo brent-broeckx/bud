@@ -15,7 +15,11 @@ export const COSMETICS: readonly Cosmetic[] = [
   { id: "antenna", name: "Satellite antenna", slot: "head", level: 4, value: "antenna" },
   { id: "midnight", name: "Midnight", slot: "color", level: 5, value: "#697aaf" },
   { id: "cape", name: "Tiny hero cape", slot: "outfit", level: 5, value: "cape" },
-  { id: "sage", name: "Local legend", slot: "title", level: 6, value: "Local legend" }
+  { id: "sage", name: "Local legend", slot: "title", level: 6, value: "Local legend" },
+  { id: "prompt-smith", name: "Prompt smith", slot: "title", level: 1, skill: "prompting", value: "Prompt smith" },
+  { id: "context-keeper", name: "Context keeper", slot: "title", level: 1, skill: "context", value: "Context keeper" },
+  { id: "agent-wrangler", name: "Agent wrangler", slot: "title", level: 1, skill: "agents", value: "Agent wrangler" },
+  { id: "tool-tinkerer", name: "Tool tinkerer", slot: "title", level: 1, skill: "tools", value: "Tool tinkerer" }
 ];
 
 export function levelFor(xp: number): number {

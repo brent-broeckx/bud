@@ -54,6 +54,7 @@ export function submitAnswer(state: ProfileState, bank: readonly Question[], now
 export function equipItem(state: ProfileState, itemId: unknown): void {
   const item = COSMETICS.find(item => item.id === itemId);
   if (!item) throw new BudError("cosmetic", "That cosmetic doesn't exist.");
+  if (item.skill && !state.earnedTitles?.includes(item.id)) throw new BudError("cosmetic_locked", `${item.name} requires 3 items in its learning path, including a real-work challenge.`);
   if (item.level > levelFor(xpFor(state))) throw new BudError("cosmetic_locked", `${item.name} unlocks at level ${item.level}.`);
   state.equipped[item.slot] = item.id;
 }

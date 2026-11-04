@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
     "dev": "tsx scripts/dev.ts",
-    "evidence": "node scripts/record-evidence.mjs"
+    "evidence": "node scripts/record-evidence.mjs",
+    "evidence:learning": "node scripts/record-learning-evidence.mjs"
   },
   "dependencies": {
     "@primer/css": "^22.0.0"
