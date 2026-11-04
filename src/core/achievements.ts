@@ -19,7 +19,7 @@ const RULES: readonly Rule[] = [
   { id: "curious-explorer", name: "Curious explorer", description: "Discover something in all seven learning categories.", xp: 30, evidence: "Seven distinct categories", eligible: (_, answered) => new Set(answered.map(q => q.category)).size === 7 },
   { id: "deep-diver", name: "Deep diver", description: "Answer five different hard questions correctly on your first encounter.", xp: 40, evidence: "Five distinct first-encounter answers", eligible: (_, __, correct) => correct.filter(q => q.difficulty === "hard").length >= 5 },
   { id: "fact-finder", name: "Fact finder", description: "Acknowledge ten different nice-to-know discoveries.", xp: 20, evidence: "Ten explicitly acknowledged facts", eligible: (_, answered) => answered.filter(q => q.type === "did-you-know").length >= 10 },
-  { id: "steady-learner", name: "Steady learner", description: "Learn on seven different days. They don't have to be consecutive.", xp: 50, evidence: "Seven learning days; no streak pressure", eligible: state => new Set(state.daily.filter(d => d.answered).map(d => d.day)).size >= 7 },
+  { id: "steady-learner", name: "Steady learner", description: "Learn on seven different days in daily discovery, Explore, or Practice. They don't have to be consecutive.", xp: 50, evidence: "Seven learning days; no streak pressure", eligible: state => new Set([...state.daily.filter(d => d.answered).map(d => d.day), ...(state.learningDays ?? [])]).size >= 7 },
   { id: "reflector", name: "Thoughtful tinkerer", description: "Acknowledge a good habit on three different days.", xp: 15, evidence: "Self-reported, not measured efficiency", eligible: state => new Set(state.reflections.map(r => r.id.split(":").at(-1))).size >= 3 },
   { id: "context-aware", name: "Context explorer", description: "Answer five different context or caching questions correctly on your first encounter.", xp: 25, evidence: "Five distinct first-encounter answers", eligible: (_, __, correct) => correct.filter(q => q.category === "context" || q.category === "caching").length >= 5 }
 ];
@@ -53,7 +53,7 @@ export function achievementViews(state: ProfileState, bank: readonly Question[],
   return [
     ...RULES.map(rule => {
       const unlocked = state.awards.some(a => a.id === `achievement:${rule.id}`);
-      const possible = rule.id === "steady-learner" ? eligible.length > 0 : rule.id === "reflector" ? true : rule.eligible(state, possibleAnswered, possibleCorrect);
+      const possible = rule.id === "steady-learner" || rule.id === "reflector" ? true : rule.eligible(state, possibleAnswered, possibleCorrect);
       return {
         id: rule.id, name: rule.name, description: rule.description, xp: rule.xp,
         evidence: !unlocked && !possible ? "Not enough eligible first encounters remain; new verified content is needed" : rule.evidence,

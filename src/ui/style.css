@@ -10,6 +10,59 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bud-bg); color: var(--bud-text); font: 15px/1.6 "Segoe UI", system-ui, sans-serif; }
 button, input { font: inherit; }
+textarea, select { font: inherit; color: var(--bud-text); background: var(--bud-paper); border: 1px solid var(--bud-line); border-radius: 8px; padding: 10px; max-width: 100%; }
+textarea { display: block; width: 100%; resize: vertical; }
+textarea:focus-visible, select:focus-visible { outline: 3px solid var(--bud-green); outline-offset: 3px; }
+.muted { color: var(--bud-muted); font-size: 13px; }
+.form-label { display: block; margin: 15px 0 7px; font-weight: 600; font-size: 13px; }
+.consent-check { display: flex; align-items: flex-start; gap: 9px; margin: 15px 0; font-size: 12px; }
+.consent-check input { flex-shrink: 0; margin-top: 4px; accent-color: var(--bud-green); }
+.scope-switch { display: flex; gap: 8px; margin: 20px 0; }
+.selected-scope { outline: 2px solid var(--bud-green); }
+.consent-box { background: var(--bud-panel); border: 1px solid var(--bud-line); border-radius: 10px; padding: 16px; margin: 20px 0; font-size: 12px; }
+.consent-box h3 { font-size: 15px; margin: 0 0 8px; }
+.usage-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.usage-chart, .history-chart { margin: 25px 0; }
+.usage-chart figcaption, .history-chart figcaption { font-size: 13px; font-weight: 600; }
+figcaption span { font-weight: 400; color: var(--bud-muted); }
+.usage-chart svg { width: 100%; height: 165px; }
+.chart-axis { stroke: var(--bud-line); fill: none; }
+.chart-line { stroke: var(--bud-green); stroke-width: 2; fill: none; }
+.chart-point { fill: var(--bud-green); }
+.usage-chart text { fill: var(--bud-muted); font-size: 11px; }
+.usage-chart details { font-size: 11px; }
+.history-row { display: grid; grid-template-columns: 90px minmax(0, 1fr) 85px; align-items: center; gap: 10px; font-size: 12px; margin: 12px 0; }
+.history-row meter { width: 100%; accent-color: var(--bud-green); }
+.history-row strong { text-align: right; }
+.session-list details { padding: 12px 0; font-size: 12px; overflow-wrap: anywhere; }
+.coaching { margin: 25px 0; }
+.coaching h3 { font-size: 17px; }.coaching h4 { font-size: 14px; margin: 17px 0 5px; }.coaching p { color: var(--bud-muted); font-size: 12px; }
+.session-review { margin-top: 20px; font-size: 12px; }
+.experience-picker { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 20px 0; font-size: 12px; }
+.experience-picker label { font-weight: 600; }.experience-picker span { color: var(--bud-muted); font-size: 11px; }
+.learning-overview { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 22px 0; font-size: 12px; }
+.learning-overview strong { color: var(--bud-green); font-size: 17px; }.learning-overview span { align-self: center; color: var(--bud-muted); }
+.active-learning { padding: 22px 18px; margin: 24px 0; border: 1px solid var(--bud-line); background: var(--bud-paper); border-radius: 10px; }
+.active-learning > h3 { font-size: 19px; margin: 15px 0 10px; line-height: 1.5; }
+.active-learning .question { font-size: 16px; }
+.learning-submit { margin-top: 18px; }
+.path-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 25px; }
+.path-panel { border: 1px solid var(--bud-line); border-radius: 10px; padding: 18px; background: var(--bud-panel); min-width: 0; }
+.path-panel h3 { font-size: 16px; margin: 0 0 8px; }.path-panel p { color: var(--bud-muted); font-size: 12px; }
+.path-panel summary { cursor: pointer; font-size: 12px; font-weight: 600; }
+.skill-state { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--bud-green); margin-top: 18px; }
+.path-progress { font-size: 11px; }
+.lesson-list { display: grid; gap: 7px; margin-top: 12px; }
+.lesson-list button { background: var(--bud-paper); color: var(--bud-text); border: 1px solid var(--bud-line); border-radius: 8px; text-align: left; padding: 10px; font-size: 12px; }
+.lesson-list small, .path-reward small { display: block; font-size: 10px; color: var(--bud-muted); margin-top: 5px; }
+.lesson-list button:hover:not(:disabled) { border-color: var(--bud-green); }
+.path-reward { margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--bud-line); font-size: 12px; }
+.revisit-list { margin-top: 25px; font-size: 12px; }.revisit-list summary { cursor: pointer; font-weight: 600; }
+.revisit-row { display: flex; align-items: center; gap: 10px; margin: 15px 0; }.revisit-row div { flex: 1; }.revisit-row small { display: block; color: var(--bud-muted); margin-top: 5px; }
+.challenge-catalogue { margin-top: 25px; }.challenge-card { display: flex; align-items: center; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--bud-line); }
+.challenge-card > div { flex: 1; min-width: 0; }.challenge-card h3 { font-size: 15px; margin: 0 0 7px; }.challenge-card p { color: var(--bud-muted); font-size: 12px; margin: 0 0 7px; }.challenge-card small { display: block; color: var(--bud-muted); font-size: 10px; margin-top: 4px; }
+.challenge-hint, .usage-question { font-size: 12px; margin: 18px 0; }.challenge-hint summary, .usage-question summary { cursor: pointer; font-weight: 600; }
+.challenge-checklist { border: 0; margin: 22px 0; padding: 0; }.challenge-checklist legend { font-weight: 600; font-size: 13px; }.evidence-label { font-size: 12px; color: var(--bud-green); background: var(--bud-tint); padding: 10px; border-radius: 8px; }
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; }
 a { color: var(--bud-green); }
@@ -73,7 +126,8 @@ progress::-webkit-progress-bar { background: var(--bud-line); }progress::-webkit
 .companion-stats div { display: flex; flex-direction: column; }.companion-stats strong { font-size: 23px; font-weight: 600; }.companion-stats span { font-size: 11px; color: var(--bud-muted); }
 .local-note { font-size: 11px; color: var(--bud-muted); margin: 27px 0 0; }
 .main-content { padding: 28px 38px 20px; min-width: 0; }
-.tabs { display: flex; gap: 28px; border-bottom: 1px solid var(--bud-line); }
+.tabs { display: flex; gap: 20px; border-bottom: 1px solid var(--bud-line); overflow-x: auto; }
+.tabs button { white-space: nowrap; flex-shrink: 0; }
 .tabs button { background: transparent; color: var(--bud-muted); border: 0; border-bottom: 2px solid transparent; padding: 10px 0 15px; font-weight: 550; font-size: 13px; }
 .tabs button.active { color: var(--bud-green); border-bottom-color: var(--bud-green); }
 .feedback { margin-top: 14px; }.feedback:empty { margin: 0; }

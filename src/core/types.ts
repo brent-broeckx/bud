@@ -1,3 +1,5 @@
+import type { LearningState } from "./learning.js";
+
 export type Category = "context" | "caching" | "tokenization" | "agents" | "mcp" | "sdk" | "habits";
 export type Difficulty = "easy" | "medium" | "hard";
 
@@ -38,6 +40,7 @@ export interface Cosmetic {
   slot: Slot;
   level: number;
   value: string;
+  skill?: string;
 }
 
 export interface UsageCall {
@@ -78,6 +81,13 @@ export interface ProfileState {
   equipped: Record<Slot, string>;
   reflections: { id: string; kind: "fresh-session" | "lean-instructions" | "mcp-cleanup"; at: string }[];
   usage: UsageState;
+  usageHistory?: UsageState[];
+  historyDiagnostics?: string[];
+  historyNextOffset?: number | null;
+  historyTotalDirectories?: number;
+  learning?: LearningState;
+  earnedTitles?: string[];
+  learningDays?: string[];
 }
 
 export interface DailyView extends Omit<Question, "answerIndex" | "explanation"> {

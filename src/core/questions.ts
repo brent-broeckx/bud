@@ -70,7 +70,7 @@ export function dailyEntry(state: ProfileState, bank: readonly Question[], now: 
 }
 
 export function streak(state: ProfileState, now: Date): number {
-  const days = state.daily.filter(entry => entry.answered).map(entry => entry.day).sort();
+  const days = [...new Set([...state.daily.filter(entry => entry.answered).map(entry => entry.day), ...(state.learningDays ?? [])])].sort();
   const last = days.at(-1);
   if (!last || ![0, 1].includes(dayDistance(last, dayFor(now, state.timezone)))) return 0;
   let count = 1;

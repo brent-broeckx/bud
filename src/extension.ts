@@ -25,6 +25,7 @@ process.on("SIGINT", () => { void stop().then(() => process.exit(0), error => { 
 process.on("SIGTERM", () => { void stop().then(() => process.exit(0), error => { console.error(error); process.exit(1); }); });
 try {
   const session = await joinSession({ canvases: [bud.canvas] });
+  service.setSessionSender(prompt => session.send({ prompt }));
   await session.log("Bud is ready. Progress stays local; usage is imported only on request.", { level: "info" });
 } catch (error) {
   await stop();

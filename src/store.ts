@@ -2,6 +2,7 @@ import { DatabaseSync } from "node:sqlite";
 import { mkdirSync, chmodSync } from "node:fs";
 import { join } from "node:path";
 import { BudError, type ProfileState } from "./core/types.js";
+import { validateLearningStorage } from "./core/learning-storage.js";
 
 export class ProfileStore {
   private readonly db: DatabaseSync;
@@ -24,6 +25,7 @@ export class ProfileStore {
       if (!parsed || typeof parsed !== "object" || !("version" in parsed) || parsed.version !== 1) {
         throw new BudError("storage_version", "This profile needs a compatible version of Bud. It has not been overwritten.");
       }
+      if ("learning" in parsed && parsed.learning !== undefined) validateLearningStorage(parsed.learning);
       const result = operation(parsed as ProfileState);
       this.db.prepare("UPDATE profile SET body=? WHERE id=1").run(JSON.stringify(parsed));
       this.db.exec("COMMIT");

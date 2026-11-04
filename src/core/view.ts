@@ -1,4 +1,6 @@
 import type { Cosmetic, DailyView, ProfileState } from "./types.js";
+import type { ReviewView, UsageSummary } from "./coaching.js";
+import type { LearningView } from "./learning.js";
 
 export interface AchievementView {
   id: string;
@@ -28,6 +30,16 @@ export interface AppView {
   today: string;
   cosmetics: (Cosmetic & { unlocked: boolean; equipped: boolean })[];
   achievements: AchievementView[];
+  review: ReviewView | null;
+  learning: LearningView;
+  sessionInteraction: { available: boolean; lastMessageId: string | null };
+  history: {
+    sessions: UsageSummary[];
+    totals: UsageSummary;
+    diagnostics: string[];
+    nextOffset: number | null;
+    totalDirectories: number;
+  };
   usage: {
     syncedAt: string | null;
     sessionAvailable: boolean;
@@ -38,5 +50,8 @@ export interface AppView {
     cacheWrite: { value: number | null; covered: number };
     context: { current: number; limit: number; at: string; basis: string } | null;
     diagnostics: string[];
+    samples: UsageSummary["samples"];
+    tips: UsageSummary["tips"];
+    questions: UsageSummary["questions"];
   };
 }

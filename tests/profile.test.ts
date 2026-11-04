@@ -53,7 +53,8 @@ test("XP and unlock boundaries are deterministic and awards cannot replay", () =
   assert.equal(awardOnce(state, award), false);
   equipItem(state, "beanie");
   assert.equal(state.equipped.head, "beanie");
-  assert.equal(COSMETICS.filter(item => item.level <= levelFor(xpFor(state))).length, 8);
+  assert.equal(COSMETICS.filter(item => !item.skill && item.level <= levelFor(xpFor(state))).length, 8);
+  assert.throws(() => equipItem(state, "context-keeper"), /learning path/);
 });
 
 test("totals show zero when reported, null when absent, and exact coverage", () => {
