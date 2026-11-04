@@ -1,0 +1,593 @@
+[
+  {
+    "id": "ctx-large-tool-output",
+    "category": "context",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "In Copilot CLI, what happens by default when a tool (including an MCP tool) returns output larger than the large-output threshold?",
+    "options": [
+      "The output is silently truncated to the threshold",
+      "The output is saved to a temporary file and the model receives the file path plus a preview",
+      "The tool call fails and the model must retry with narrower arguments",
+      "The output is compacted into a summary before being added to context"
+    ],
+    "answerIndex": 1,
+    "explanation": "By default, tool output over 20 KiB is written to a temp file; the model gets the path and a preview. The threshold is set with COPILOT_LARGE_OUTPUT_THRESHOLD_BYTES. Raising it leaves less context for everything else.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/prompting-and-context/context-management",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "ctx-compaction-lossy",
+    "category": "context",
+    "difficulty": "hard",
+    "type": "quiz",
+    "question": "Which statement about Copilot compaction is accurate?",
+    "options": [
+      "It is reversible with /undo",
+      "It deletes the oldest messages without summarizing them",
+      "It replaces history with a model-written summary that keeps original user instructions and plan/todo state, and it is lossy",
+      "It only runs when you type /compact"
+    ],
+    "answerIndex": 2,
+    "explanation": "Compaction sends the conversation to the model for a structured summary, and that summary replaces the history. Original user instructions and plan/todo state are preserved. Compaction is lossy and cannot be undone. It also runs automatically. You can trigger it with /compact and cancel it with Esc.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/prompting-and-context/context-management",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": false
+  },
+  {
+    "id": "ctx-context-buffer",
+    "category": "context",
+    "difficulty": "easy",
+    "type": "quiz",
+    "question": "In the Copilot CLI /context breakdown, what does the 'Buffer' category represent?",
+    "options": [
+      "Tokens used by MCP tool definitions",
+      "Capacity reserved for the model's response plus headroom",
+      "Cached tokens that are free to reuse",
+      "Messages waiting in the queue"
+    ],
+    "answerIndex": 1,
+    "explanation": "/context lists System Prompt, Custom Instructions (when present), System Tools, MCP Tools, Messages, Free Space, and Buffer. Buffer is the capacity held back for the response plus headroom.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/prompting-and-context/context-management",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "ctx-subagent-window",
+    "category": "context",
+    "difficulty": "easy",
+    "type": "quiz",
+    "question": "How does a subagent's context relate to the main agent's context window?",
+    "options": [
+      "It shares the main agent's window token-for-token",
+      "It has its own separate context window",
+      "It has no context and only sees the tool call arguments",
+      "It reuses the main agent's compaction summary as its full history"
+    ],
+    "answerIndex": 1,
+    "explanation": "Each subagent gets its own context window, separate from the main agent's. That's why delegating noisy exploration can keep the main conversation lean.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/prompting-and-context/context-management",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": false
+  },
+  {
+    "id": "ctx-compact-focus",
+    "category": "context",
+    "difficulty": "medium",
+    "type": "did-you-know",
+    "question": "/compact accepts focus instructions.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "The CLI reference documents /compact [FOCUS-INSTRUCTIONS], for example '/compact focus on the auth module', which steers what the summary emphasizes. Saved compaction summaries are checkpoints, and /session checkpoints lists them.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "ctx-side-question",
+    "category": "context",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "Which Copilot CLI command lets you ask a quick side question without adding it to the conversation history?",
+    "options": ["/fork", "/ask (alias /btw)", "/new", "/instructions"],
+    "answerIndex": 1,
+    "explanation": "/ask and /btw answer a side question without adding it to the history. /fork (alias /branch) creates a separate session copy, and /new starts a new conversation.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "ctx-rewind-files",
+    "category": "context",
+    "difficulty": "hard",
+    "type": "quiz",
+    "question": "When you use /undo (or /rewind) in Copilot CLI and choose 'Conversation + files', which is true?",
+    "options": [
+      "It requires the folder to be a Git repository",
+      "It reverts file changes using per-turn tracking, without Git, and skips files you have since edited yourself",
+      "It reverts every file in the working tree to the session start",
+      "It only rewinds the conversation; files are never touched"
+    ],
+    "answerIndex": 1,
+    "explanation": "Rewind offers two options: 'Conversation only' and 'Conversation + files'. File changes are tracked per turn, so Git isn't required. Files you edited yourself after the change are skipped.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "ctx-memory-tokens",
+    "category": "context",
+    "difficulty": "easy",
+    "type": "did-you-know",
+    "question": "Copilot Memory isn't free context.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "Memories placed in a model's context count toward token usage like any other context. Forked repositories don't copy memories.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": false
+  },
+  {
+    "id": "cache-usage-input-includes-cache",
+    "category": "caching",
+    "difficulty": "hard",
+    "type": "quiz",
+    "question": "In the Copilot SDK's assistant.usage event, how do you compute the uncached part of a call's input?",
+    "options": [
+      "inputTokens + cacheReadTokens + cacheWriteTokens",
+      "inputTokens - cacheReadTokens - cacheWriteTokens",
+      "inputTokens alone; cache tokens are reported separately and never overlap",
+      "cacheReadTokens / inputTokens"
+    ],
+    "answerIndex": 1,
+    "explanation": "The SDK docs say inputTokens already includes cacheReadTokens and cacheWriteTokens, so adding them double-counts. The uncached remainder is inputTokens - cacheReadTokens - cacheWriteTokens. The docs give the arithmetic but don't recommend any hit-ratio formula.",
+    "sourceUrl": "https://github.com/github/copilot-sdk/blob/d28a13687fbe122c14e81fbb9cd01725e051bb14/docs/features/usage-and-billing.md",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "cache-breakpoint-not-guaranteed",
+    "category": "caching",
+    "difficulty": "hard",
+    "type": "did-you-know",
+    "question": "A cache breakpoint is a request, not a promise.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "For BYOK custom-model system message content blocks, 'isStatic' marks content that can be cached separately from changing prompt content. 'cacheBreakpoint' asks for a cache boundary on providers that support explicit prompt caching. The config reference says it does not guarantee provider caching.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "cache-mcp-tool-snapshot",
+    "category": "caching",
+    "difficulty": "hard",
+    "type": "quiz",
+    "question": "Copilot CLI persists a snapshot of each local MCP server's tool list. What happens at startup?",
+    "options": [
+      "The snapshot is used instead of contacting the server until it expires",
+      "Tools from the snapshot are available immediately, and live discovery still runs and replaces the snapshot",
+      "The snapshot is only used if the server fails to start",
+      "Setting COPILOT_MCP_TOOL_CACHE=false deletes all existing snapshot files"
+    ],
+    "answerIndex": 1,
+    "explanation": "The snapshot makes tools available right away, but live discovery always runs and replaces it. You can opt out per server with disableToolCache: true or for the whole process with COPILOT_MCP_TOOL_CACHE=false. Both leave existing cache files in place.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "cache-mcp-ttl-absent",
+    "category": "caching",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "Under the current MCP specification, if a cacheable result such as tools/list omits ttlMs, what should a client assume?",
+    "options": [
+      "Cache it forever until a list_changed notification arrives",
+      "A default of 5 minutes",
+      "A TTL of 0, meaning immediately stale",
+      "The result is invalid and must be rejected"
+    ],
+    "answerIndex": 2,
+    "explanation": "If ttlMs is missing, clients SHOULD assume 0 (immediately stale). Negative values are treated as 0. TTL is a freshness hint, not a guarantee, and clients SHOULD NOT use it as a polling interval.",
+    "sourceUrl": "https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "cache-mcp-deterministic-order",
+    "category": "caching",
+    "difficulty": "medium",
+    "type": "did-you-know",
+    "question": "Tool ordering can affect prompt caching.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "The MCP spec says servers SHOULD return tools in a deterministic order. A stable order lets clients cache the tool list reliably and improves LLM prompt cache hit rates when the tools are part of the model context.",
+    "sourceUrl": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "tok-what-is-a-token",
+    "category": "tokenization",
+    "difficulty": "easy",
+    "type": "did-you-know",
+    "question": "Context windows are measured in tokens, not characters or messages.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "GitHub's docs say the context window has a fixed size in tokens, and that size varies by model. Tokens are typically short common words and fragments of longer words. The docs give no fixed characters-per-token ratio, so treat any such ratio as an estimate.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/prompting-and-context/context-management",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": false
+  },
+  {
+    "id": "tok-sdk-utilization-event",
+    "category": "tokenization",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "In the Copilot SDK, which signal tells you how full the context window is right now (currentTokens vs tokenLimit)?",
+    "options": [
+      "assistant.usage",
+      "session.usage_info",
+      "account.getQuota",
+      "models.list"
+    ],
+    "answerIndex": 1,
+    "explanation": "session.usage_info is emitted when the context-window size changes and carries currentTokens and tokenLimit. assistant.usage gives per-call token counts instead. To get a breakdown on demand, such as after a resume, call the experimental session.metadata.contextInfo.",
+    "sourceUrl": "https://github.com/github/copilot-sdk/blob/d28a13687fbe122c14e81fbb9cd01725e051bb14/docs/features/usage-and-billing.md",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "agents-subagent-instructions",
+    "category": "agents",
+    "difficulty": "hard",
+    "type": "quiz",
+    "question": "When a custom agent runs as a subagent in Copilot CLI, does it receive repository instructions (copilot-instructions.md, AGENTS.md, CLAUDE.md) by default?",
+    "options": [
+      "Yes, always",
+      "No, unless its profile sets include-custom-instructions: true",
+      "Only if the repository has a .mcp.json",
+      "Only when launched with --allow-all-tools"
+    ],
+    "answerIndex": 1,
+    "explanation": "By default a custom agent spawned as a subagent does not get repo instructions, which keeps search and summarize agents faster and cheaper. Set include-custom-instructions: true to opt in. The built-in general-purpose subagent does receive them. --no-custom-instructions overrides all of this.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "agents-tools-wildcard",
+    "category": "agents",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "A custom agent profile sets tools: [\"view\", \"*\"]. What can it use?",
+    "options": [
+      "Only the view tool",
+      "All tools, because '*' anywhere in the list grants every tool",
+      "No tools; the list is invalid",
+      "View plus MCP tools only"
+    ],
+    "answerIndex": 1,
+    "explanation": "The CLI reference says a '*' anywhere in an agent's tools list grants all tools. Remove it if you meant to restrict the agent.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "agents-id-derivation",
+    "category": "agents",
+    "difficulty": "hard",
+    "type": "quiz",
+    "question": "What agent ID does Copilot CLI derive for the file agents/team/reviewer.agent.md?",
+    "options": ["reviewer", "team/reviewer", "team--reviewer", "team.reviewer"],
+    "answerIndex": 2,
+    "explanation": "Nested folder segments are joined with a double hyphen, so agents/team/reviewer.agent.md becomes team--reviewer.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "agents-custom-vs-subagent",
+    "category": "agents",
+    "difficulty": "easy",
+    "type": "quiz",
+    "question": "What is the difference between a custom agent and a subagent?",
+    "options": [
+      "They are two names for the same thing",
+      "A custom agent is a specialist's definition; a subagent is delegated work running in a separate context",
+      "A subagent is a file in .github/agents; a custom agent is a running process",
+      "Custom agents cannot be used as subagents"
+    ],
+    "answerIndex": 1,
+    "explanation": "GitHub's docs separate the definition of a specialist (the custom agent) from delegated work that runs in its own context (the subagent).",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-custom-agents",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": false
+  },
+  {
+    "id": "agents-hooks-enforce",
+    "category": "agents",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "You need a rule that must always run (for example, blocking a dangerous command). Which Copilot feature runs your code instead of asking the model to follow the rule?",
+    "options": ["Copilot Memory", "Hooks (e.g., preToolUse)", "A skill", "A longer custom instruction"],
+    "answerIndex": 1,
+    "explanation": "Hooks execute code at defined points, and a preToolUse hook can approve or deny a tool execution. Hooks run synchronously and block the agent, so keep them fast. The docs suggest under 5 seconds, and the default timeout is 30 seconds.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/agents/hooks",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "agents-skills-on-demand",
+    "category": "agents",
+    "difficulty": "easy",
+    "type": "did-you-know",
+    "question": "Skills load only when relevant.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "Agent skills follow an open standard and load only when they're relevant to the task, so a workflow isn't added to every conversation. Project skills can live in .github/skills, .claude/skills, or .agents/skills.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/agents/about-agent-skills",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "mcp-vscode-json-not-read",
+    "category": "mcp",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "Which project MCP config file does Copilot CLI NOT read?",
+    "options": [".mcp.json", ".github/mcp.json", ".vscode/mcp.json"],
+    "answerIndex": 2,
+    "explanation": "The CLI reads .mcp.json (anywhere from the cwd up to the repo root) and .github/mcp.json. It does not read .vscode/mcp.json, which uses the unsupported 'servers' key. If both supported files are in the same directory, .mcp.json wins, and closer files win name conflicts.",
+    "sourceUrl": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "mcp-folder-trust",
+    "category": "mcp",
+    "difficulty": "easy",
+    "type": "did-you-know",
+    "question": "Project MCP servers wait for folder trust.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "MCP servers defined in project config files load only after you grant folder trust. The GitHub MCP server is built in.",
+    "sourceUrl": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "mcp-disable-persists",
+    "category": "mcp",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "What does /mcp disable NAME do in Copilot CLI?",
+    "options": [
+      "Deletes the server from your config",
+      "Keeps the server configured but unused, and the setting persists across sessions",
+      "Disables the server for the current turn only",
+      "Uninstalls the server package"
+    ],
+    "answerIndex": 1,
+    "explanation": "Disabling keeps the configuration but stops using the server, and that persists across sessions. Mutating /mcp subcommands are blocked while a turn is running.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "mcp-trust-levels",
+    "category": "mcp",
+    "difficulty": "hard",
+    "type": "quiz",
+    "question": "In Copilot CLI's MCP trust levels, which source is treated as Low trust?",
+    "options": [
+      "Built-in servers",
+      "Repository config (.github/mcp.json)",
+      "Remote servers",
+      "Workspace config (.mcp.json)"
+    ],
+    "answerIndex": 2,
+    "explanation": "The CLI reference ranks built-in servers High, repo (.github/mcp.json) and workspace (.mcp.json) configs Medium, and remote servers Low. Trust for user config is user-defined.",
+    "sourceUrl": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "mcp-stdio-logging",
+    "category": "mcp",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "Per the MCP spec's stdio transport, where should a server write its debug logs?",
+    "options": [
+      "stdout, prefixed with '#'",
+      "stderr",
+      "Either stream; clients ignore non-JSON lines",
+      "A notifications/log message is the only allowed channel"
+    ],
+    "answerIndex": 1,
+    "explanation": "In stdio, messages are newline-delimited JSON-RPC, and a server MUST NOT write anything to stdout that isn't a valid MCP message. Logs MAY go to stderr, and clients SHOULD NOT assume stderr output means an error.",
+    "sourceUrl": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": false
+  },
+  {
+    "id": "mcp-spec-annotations-untrusted",
+    "category": "mcp",
+    "difficulty": "medium",
+    "type": "did-you-know",
+    "question": "MCP tool descriptions are untrusted by default.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "The MCP spec says tools represent arbitrary code execution, and descriptions of tool behavior such as annotations should be considered untrusted unless they come from a trusted server. Hosts must obtain explicit user consent before invoking any tool.",
+    "sourceUrl": "https://modelcontextprotocol.io/specification/2026-07-28",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": false
+  },
+  {
+    "id": "mcp-sdk-disabled-servers",
+    "category": "mcp",
+    "difficulty": "hard",
+    "type": "quiz",
+    "question": "In the Copilot SDK, what does setting disabledMcpServers on createSession do?",
+    "options": [
+      "Removes the servers from the global MCP config",
+      "Prevents those exact-named servers from starting in that session only; global settings are unchanged",
+      "Disables all MCP servers whose names start with the given prefix",
+      "Stops servers that were already spawned in a resident resume"
+    ],
+    "answerIndex": 1,
+    "explanation": "The setting applies only to that create or resume request and leaves global settings untouched. Names must match exactly. On create or cold resume, the disabled servers aren't started or authenticated. A resident resume can't undo a server that's already running.",
+    "sourceUrl": "https://github.com/github/copilot-sdk/blob/d28a13687fbe122c14e81fbb9cd01725e051bb14/docs/features/mcp.md",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "sdk-same-engine",
+    "category": "sdk",
+    "difficulty": "easy",
+    "type": "quiz",
+    "question": "How does the GitHub Copilot SDK communicate with the Copilot engine by default?",
+    "options": [
+      "It calls a public REST API directly",
+      "It talks JSON-RPC to the Copilot CLI running as a child process in server mode",
+      "It embeds a model locally",
+      "It drives the CLI by scraping terminal output"
+    ],
+    "answerIndex": 1,
+    "explanation": "The SDK exposes the same engine as Copilot CLI. By default it starts the CLI as a child process in server mode and talks to it over JSON-RPC. The CLI is bundled for Node, Python, and .NET, not for Go, Java, or Rust.",
+    "sourceUrl": "https://github.com/github/copilot-sdk",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "sdk-steer-vs-queue",
+    "category": "sdk",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "While an SDK session is busy, you send a message with mode \"enqueue\". What happens?",
+    "options": [
+      "It is injected into the current LLM turn",
+      "It is processed after the current turn finishes",
+      "It aborts the current turn and restarts",
+      "It is dropped because the session is busy"
+    ],
+    "answerIndex": 1,
+    "explanation": "\"enqueue\" queues the message for after the current turn. \"immediate\" steers the current turn on a best-effort basis: if a tool call is already committed, the steering applies after it finishes. When the session is idle, both modes start a new turn right away.",
+    "sourceUrl": "https://github.com/github/copilot-sdk/blob/d28a13687fbe122c14e81fbb9cd01725e051bb14/docs/features/steering-and-queueing.md",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "sdk-terminal-tool",
+    "category": "sdk",
+    "difficulty": "hard",
+    "type": "quiz",
+    "question": "An SDK tool is defined with isTerminal: true. When does it end the agent turn?",
+    "options": [
+      "Whenever it is called",
+      "Only when it succeeds; failures, denials, and timeouts stay visible so the model can recover",
+      "Only after the user confirms",
+      "Never; isTerminal only affects logging"
+    ],
+    "answerIndex": 1,
+    "explanation": "isTerminal ends the turn only when the tool succeeds. A failure, denial, timeout, or input-validation error stays visible to the model so it can recover. The docs pair this with session.history.clearContext so the loop doesn't call the model again against a just-cleared window.",
+    "sourceUrl": "https://github.com/github/copilot-sdk/blob/d28a13687fbe122c14e81fbb9cd01725e051bb14/docs/features/context-management.md",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "sdk-usage-not-replayed",
+    "category": "sdk",
+    "difficulty": "hard",
+    "type": "did-you-know",
+    "question": "Per-call usage events are not replayed on resume.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "assistant.usage is ephemeral: it's delivered live, once for each model API call (sub-agent calls included), and isn't replayed when a session resumes. For accumulated totals, call the experimental session.usage.getMetrics. A tracker that counts events will miss anything it didn't observe live.",
+    "sourceUrl": "https://github.com/github/copilot-sdk/blob/d28a13687fbe122c14e81fbb9cd01725e051bb14/docs/features/usage-and-billing.md",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "sdk-disconnect-vs-delete",
+    "category": "sdk",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "In the Copilot SDK, what is the difference between disconnect() and deleteSession()?",
+    "options": [
+      "No difference; both remove files on disk",
+      "disconnect() frees in-memory resources but keeps data on disk for resume; deleteSession() removes everything permanently",
+      "disconnect() deletes the session; deleteSession() only closes the connection",
+      "Both keep data, but deleteSession() hides it from listings"
+    ],
+    "answerIndex": 1,
+    "explanation": "disconnect() releases in-memory resources and keeps session data on disk so it can be resumed. deleteSession() permanently removes everything, including the files on disk. Provider API keys aren't persisted and must be supplied again on resume.",
+    "sourceUrl": "https://github.com/github/copilot-sdk/blob/d28a13687fbe122c14e81fbb9cd01725e051bb14/docs/features/session-persistence.md",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "habits-fresh-session",
+    "category": "habits",
+    "difficulty": "easy",
+    "type": "quiz",
+    "question": "According to GitHub's context-management guidance, when is starting a fresh session a good idea?",
+    "options": [
+      "Every few minutes, regardless of task",
+      "When switching to an unrelated task, after many compactions, or when you want a clean slate",
+      "Never; compaction makes fresh sessions unnecessary",
+      "Only when the CLI crashes"
+    ],
+    "answerIndex": 1,
+    "explanation": "GitHub recommends a fresh session (/new or /clear) when you switch to unrelated work, after several compactions, or when you want a clean slate. Each compaction is lossy.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/prompting-and-context/context-management",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": false
+  },
+  {
+    "id": "habits-instruction-edits",
+    "category": "habits",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "You edit .github/copilot-instructions.md during a Copilot CLI session. When does the change take effect?",
+    "options": [
+      "Immediately, on the next prompt",
+      "Not in the active session; resume or start a new session",
+      "After running /compact",
+      "Only after a git commit"
+    ],
+    "answerIndex": 1,
+    "explanation": "Instruction edits don't apply to active sessions, so you need to resume or start a new one. Instruction files are combined, identical duplicates are removed, and there's no general precedence order, so avoid conflicting rules.",
+    "sourceUrl": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  },
+  {
+    "id": "habits-memory-vs-instructions",
+    "category": "habits",
+    "difficulty": "medium",
+    "type": "did-you-know",
+    "question": "Use custom instructions, not memory, for must-follow rules.",
+    "options": [],
+    "answerIndex": null,
+    "explanation": "Copilot Memory checks repository facts against their citations, but that check is a judgment, not a guarantee. GitHub recommends custom instructions for rules that must always be followed.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/prompting-and-context/copilot-memory",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": false
+  },
+  {
+    "id": "habits-deny-tool-wins",
+    "category": "habits",
+    "difficulty": "medium",
+    "type": "quiz",
+    "question": "You launch Copilot CLI with --allow-all-tools and also --deny-tool for a specific command. Which wins?",
+    "options": ["--allow-all-tools", "--deny-tool", "Whichever flag comes last", "The CLI refuses to start"],
+    "answerIndex": 1,
+    "explanation": "--deny-tool takes precedence over both --allow-all-tools and --allow-tool, which makes it a safe guardrail to add to broad permissions. Session-wide approvals also apply broadly: approving a tool for the session can allow any command of that tool, such as any rm.",
+    "sourceUrl": "https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-cli",
+    "verifiedOn": "2026-11-04",
+    "mayGoStale": true
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "name": "bud-copilot-canvas",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "dev": "tsx scripts/dev.ts",
+    "evidence": "node scripts/record-evidence.mjs"
+  },
+  "dependencies": {
+    "@primer/css": "^22.0.0"
+  },
+  "devDependencies": {
+    "@github/copilot-sdk": "1.0.28",
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.25.0",
+    "playwright": "^1.56.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}

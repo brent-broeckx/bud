@@ -1,0 +1,10 @@
+{
+  "name": "bud-canvas",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "extension.mjs",
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules/
+evidence/
+.bud-dev/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+.github/extensions/bud/artifacts/
