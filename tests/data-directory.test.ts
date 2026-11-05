@@ -9,23 +9,24 @@ import { newFixture } from "./fixtures.js";
 
 function setup() {
   const home = mkdtempSync(join(tmpdir(), "bud-data-directory-"));
-  const directory = join(home, "bud-data");
-  const legacy = join(home, "extensions", "bud", "artifacts");
+  const directory = join(home, "extensions", "bud", "artifacts");
+  const legacy = join(home, "bud-data");
   return { home, directory, legacy, cleanup: () => rmSync(home, { recursive: true, force: true }) };
 }
 
-test("new profiles live outside extension installation and survive replacing the installation", () => {
+test("new profiles live inside the Bud folder and reopen without losing progress", () => {
   const { home, directory, cleanup } = setup();
   try {
+    const installation = join(home, "extensions", "bud");
+    mkdirSync(installation, { recursive: true });
+    writeFileSync(join(installation, "extension.mjs"), "// synthetic installation");
     assert.equal(resolveDataDirectory(home), directory);
     const store = new ProfileStore(resolveDataDirectory(home), newFixture);
     try { store.transaction(state => { state.awards.push({ id: "test", at: state.createdAt, evidence: "synthetic", xp: 10 }); }); }
     finally { store.close(); }
-    const installation = join(home, "extensions", "bud");
-    mkdirSync(installation, { recursive: true });
-    writeFileSync(join(installation, "extension.mjs"), "// synthetic installation");
-    rmSync(installation, { recursive: true });
-    mkdirSync(installation);
+    assert.equal(existsSync(join(directory, "profile.sqlite")), true);
+    assert.equal(existsSync(join(home, "bud-data")), false);
+    writeFileSync(join(installation, "extension.mjs"), "// updated synthetic installation");
     const reopened = new ProfileStore(resolveDataDirectory(home), newFixture);
     try { assert.equal(reopened.transaction(state => state.awards[0]?.xp), 10); }
     finally { reopened.close(); }
@@ -51,13 +52,14 @@ test("legacy profiles block a silent reset without modifying the database or sid
   } finally { cleanup(); }
 });
 
-test("moving a stopped legacy profile preserves progress in the new default", () => {
+test("moving a stopped bud-data profile into Bud preserves progress", () => {
   const { home, directory, legacy, cleanup } = setup();
   try {
     const store = new ProfileStore(legacy, newFixture);
     try { store.transaction(state => { state.awards.push({ id: "test", at: state.createdAt, evidence: "synthetic", xp: 10 }); }); }
     finally { store.close(); }
     assert.throws(() => resolveDataDirectory(home), /existing profile/);
+    mkdirSync(join(home, "extensions", "bud"), { recursive: true });
     renameSync(legacy, directory);
     const migrated = new ProfileStore(resolveDataDirectory(home), newFixture);
     try { assert.equal(migrated.transaction(state => state.awards[0]?.xp), 10); }
@@ -65,7 +67,7 @@ test("moving a stopped legacy profile preserves progress in the new default", ()
   } finally { cleanup(); }
 });
 
-test("an existing new profile takes precedence over leftover legacy data", () => {
+test("an existing Bud profile takes precedence over leftover bud-data", () => {
   const { home, directory, legacy, cleanup } = setup();
   try {
     for (const path of [directory, legacy]) {
@@ -86,7 +88,7 @@ test("explicit data overrides keep their exact meaning even when legacy data exi
   } finally { cleanup(); }
 });
 
-test("an empty legacy artifacts directory does not block a fresh profile", () => {
+test("an empty bud-data directory does not block a fresh profile", () => {
   const { home, directory, legacy, cleanup } = setup();
   try {
     mkdirSync(legacy, { recursive: true });
