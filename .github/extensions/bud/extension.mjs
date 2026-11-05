@@ -2098,8 +2098,8 @@ import { existsSync } from "node:fs";
 import { join as join4, resolve } from "node:path";
 function resolveDataDirectory(copilotHome, override) {
   if (override !== void 0) return resolve(override);
-  const directory = resolve(copilotHome, "bud-data");
-  const legacy = resolve(copilotHome, "extensions", "bud", "artifacts");
+  const directory = resolve(copilotHome, "extensions", "bud", "artifacts");
+  const legacy = resolve(copilotHome, "bud-data");
   if (!existsSync(join4(directory, "profile.sqlite")) && existsSync(join4(legacy, "profile.sqlite"))) {
     throw new Error(
       `Bud found an existing profile in "${legacy}". Close all Bud canvases and stop Bud processes, then move that directory (including profile.sqlite and any WAL/SHM files) to "${directory}". Bud has not moved or overwritten your data. BUD_DATA_DIR can explicitly select a different data directory.`

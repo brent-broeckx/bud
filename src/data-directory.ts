@@ -4,8 +4,8 @@ import { join, resolve } from "node:path";
 export function resolveDataDirectory(copilotHome: string, override?: string): string {
   if (override !== undefined) return resolve(override);
 
-  const directory = resolve(copilotHome, "bud-data");
-  const legacy = resolve(copilotHome, "extensions", "bud", "artifacts");
+  const directory = resolve(copilotHome, "extensions", "bud", "artifacts");
+  const legacy = resolve(copilotHome, "bud-data");
   if (!existsSync(join(directory, "profile.sqlite")) && existsSync(join(legacy, "profile.sqlite"))) {
     throw new Error(
       `Bud found an existing profile in "${legacy}". Close all Bud canvases and stop Bud processes, ` +
